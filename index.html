@@ -49,9 +49,96 @@
 					<ul>
 						<li class="fragment grow highlight-current-blue">Blocks, Procs, Lambdas</li>
 						<li class="fragment grow highlight-current-blue">...</li>
-						<li class="fragment grow highlight-current-blue">...</li>
-						<li class="fragment grow highlight-current-blue">...</li>
+						<li class="fragment grow highlight-current-blue">send, method_missing, define_method</li>
+						<li class="fragment grow highlight-current-blue">Handling/Raising the Exceptions</li>
 					</ul>
+				</section>
+
+				<section>
+					<h4>Blocks</h4>
+					<pre><code>
+{ puts 'Hello' }
+
+do
+    puts 'Hello'
+end
+					</code></pre>
+					<h4>Calling inside method</h4>
+					<pre><code>
+
+def call_block
+  puts 'Beginning'
+  yield
+  puts 'End'
+end
+
+call_block { puts 'In the block' }
+					</code></pre>
+				</section>
+
+				<section>
+					<h4>Calling a block with parameters</h4>
+					<pre><code>
+def who_says_what
+  yield('Dave, 'hello')
+  yield('Andy, 'goodbye')
+end
+
+who_says_what { |person, phrase| puts "#{person} says #{phrase}" }
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Passing block by reference</h3>
+					<pre><code>
+def some_method(&block)
+  yield if block_given?
+end
+
+some_method { puts 'Hello' }
+some_method
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Proc & Lambda Objects</h2>
+					<p align="left">Blocks are not objects, but they can be converted into objects of class Proc. There are four ways of converting a block into a Proc object.</p>
+					<pre><code>
+def method_with_block(p1, p2, &block)
+  puts block.inspect
+end
+method_with_block(1,2) { 'a block' } => #Proc:0x007ff4a4663621@prog.rb:1
+
+block = Proc.new { 'block' } => #Proc:0x007fd4a4064638@prog.rb:1
+
+block = lambda { 'a block' } => #Proc:0x007f9d4c12c5c8@prog.rb:1 (lambda)
+
+lam = ->(p1, p2) { p1 + p2 }
+lam.call(4, 3) # => 7
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Proc/Lambda Difference</h3>
+					<ul>
+						<li>Lambdas are stricter when checking the parameters passed to them;</li>
+						<li>Return in a lambda exits much as it would from a method.</li>
+					</ul>
+					<pre><code>
+def proc_method
+  p = Proc.new { return 99 }
+  p.call
+  puts 'Never get here'
+end
+proc_method # => 99
+
+def lambda_method
+  p = lambda { return 99 }
+  res = p.call
+  puts "The block returned #{res}"
+end
+lambda_method # => "The block returned 99"
+					</code></pre>
 				</section>
 
 				<section>
