@@ -48,7 +48,7 @@
 					<h2>Quick lecture overview</h2>
 					<ul>
 						<li class="fragment grow highlight-current-blue">Blocks, Procs, Lambdas</li>
-						<li class="fragment grow highlight-current-blue">...</li>
+						<li class="fragment grow highlight-current-blue">Metaprogramming</li>
 						<li class="fragment grow highlight-current-blue">send, method_missing, define_method</li>
 						<li class="fragment grow highlight-current-blue">Handling/Raising the Exceptions</li>
 					</ul>
@@ -138,6 +138,88 @@ def lambda_method
   puts "The block returned #{res}"
 end
 lambda_method # => "The block returned 99"
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Metaprogramming</h3>
+				</section>
+
+				<section>
+					<section>
+						<h2>Exceptions</h2>
+					</section>
+
+					<section>
+						<h4 style="margin-bottom: 0;">Hierarchy</h4>
+						<img src="img/exceptions.png" width="80%" alt="Q&A" style="border: none; margin-top: 0;" />
+					</section>
+				</section>
+
+				<section>
+					<h3>Creating own Exceptions</h3>
+					<pre><code>
+class MyCustomError < RuntimeError; end
+					</code></pre>
+				</section>
+
+				<section>
+					<section>
+						<h2>Handling Exceptions</h2>
+					</section>
+
+					<section>
+						<h2>Rescues clause</h2>
+						<pre><code>
+	begin
+	  #some code that may raise an exception
+	rescue SyntaxError, NameError => boom
+	  print "String doesn't compile: " + boom
+	rescue StandardError => bang
+	  print "Error running script: " + bang
+	end
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Ensure clause</h2>
+						<pre><code>
+	f = File.open("testfile")
+	begin
+	  # .. process
+	rescue
+	  # .. handle error
+	ensure
+	  f.close
+	end
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Raising Exceptions</h2>
+						<pre><code>
+raise => #RuntimeError Exception will be triggered
+raise 'bad mp3 encoding'
+raise InterfaceException, 'Keyboard failure', caller
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h3>Catch & Throw</h3>
+					<pre><code>
+word_list = File.open("wordlist")
+catch (:done) do
+  result = []
+  while line = word_list.gets
+    word = line.chomp
+    throw :done unless word =~ /^\w+$/
+    result << word
+  end
+  puts result.reverse
+end
 					</code></pre>
 				</section>
 
