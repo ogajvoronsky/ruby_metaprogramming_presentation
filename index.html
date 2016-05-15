@@ -49,7 +49,6 @@
 					<ul>
 						<li class="fragment grow highlight-current-blue">Blocks, Procs, Lambdas</li>
 						<li class="fragment grow highlight-current-blue">Metaprogramming</li>
-						<li class="fragment grow highlight-current-blue">method_missing, define_method</li>
 						<li class="fragment grow highlight-current-blue">Handling/Raising the Exceptions</li>
 					</ul>
 				</section>
@@ -203,6 +202,48 @@ Printer.new.print_b => #NoMethodError: private method 'print_b' called
 
 Printer.new.send(:print_a) => #a
 Printer.new.send(:print_b) => #b
+					</code></pre>
+				</section>
+
+				<section>
+				<h2>Modules: Including difference</h2>
+					<ul>
+						<li class="fragment grow">Include</li>
+						<li class="fragment grow">Extend</li>
+						<li class="fragment grow">Prepend</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Hook methods</h2>
+					<img src="img/hook_methods.png" width="85%" alt="Hook methods" style="border: none;" />
+				</section>
+
+				<section>
+					<h2>method_missing hook</h2>
+					<pre><code>
+def method_missing(name, *args, &block)
+  puts "Called #{name} with #{args.inspect} and #{block}"
+end
+
+wurble(3, 4) { stuff } => #Called wurble with [3, 4] and Proc:0x007fd7d910fb18@prog.rb:7
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>define_method</h2>
+					<pre><code>
+statuses = ['initial', 'active', 'canceled', 'expired']
+
+statuses.each do |status|
+  define_method(status) do
+    puts "current status is #{status}"
+  end
+end
+
+initial
+active
+...
 					</code></pre>
 				</section>
 
