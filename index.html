@@ -49,7 +49,7 @@
 					<ul>
 						<li class="fragment grow highlight-current-blue">Blocks, Procs, Lambdas</li>
 						<li class="fragment grow highlight-current-blue">Metaprogramming</li>
-						<li class="fragment grow highlight-current-blue">send, method_missing, define_method</li>
+						<li class="fragment grow highlight-current-blue">method_missing, define_method</li>
 						<li class="fragment grow highlight-current-blue">Handling/Raising the Exceptions</li>
 					</ul>
 				</section>
@@ -143,6 +143,67 @@ lambda_method # => "The block returned 99"
 
 				<section>
 					<h3>Metaprogramming</h3>
+					<p align="left">Metaprogramming — writing code that writes code. Most advanced Ruby programmers will use metaprogramming techniques to simplify their code.</p>
+					<img src="img/machine.jpg" width="85%" alt="Metaprogramming" style="border: none; margin-top: 0;" />
+				</section>
+
+				<section>
+					<section>
+						<h2>Singletons</h2>
+						<p align="left">Singletons - methods that are specific to a particular object.</p>
+						<pre><code>
+animal = "cat"
+def animal.speak
+  puts "The #{self} says miaow"
+end
+animal.speak
+						</code></pre>
+					</section>
+
+					<section>
+						<img src="img/singletons.png" width="85%" alt="Singletons" style="border: none;" />
+					</section>
+				</section>
+
+				<section>
+					<h2>Inheritance and Visibility</h2>
+					<pre><code>
+class Base
+  def a_method
+    puts "Got here"
+  end
+  private :a_method
+end
+
+class Derived1 < Base; end
+
+class Derived2 < Base
+  public :a_method
+end
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Calling methods dinamically</h3>
+					<pre><code>
+class Printer
+  def print_a
+    puts 'a'
+  end
+
+  private
+
+  def print_b
+    puts 'b'
+  end
+end
+
+Printer.new.print_a => #a
+Printer.new.print_b => #NoMethodError: private method 'print_b' called
+
+Printer.new.send(:print_a) => #a
+Printer.new.send(:print_b) => #b
+					</code></pre>
 				</section>
 
 				<section>
@@ -152,7 +213,7 @@ lambda_method # => "The block returned 99"
 
 					<section>
 						<h4 style="margin-bottom: 0;">Hierarchy</h4>
-						<img src="img/exceptions.png" width="80%" alt="Q&A" style="border: none; margin-top: 0;" />
+						<img src="img/exceptions.png" width="80%" alt="Exceptions" style="border: none; margin-top: 0;" />
 					</section>
 				</section>
 
